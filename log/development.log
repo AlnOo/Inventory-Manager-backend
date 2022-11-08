@@ -1,0 +1,416 @@
+  [1m[35m (108.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (118.4ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(8115692404137957555)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateProducts (20171204190333)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (82.4ms)[0m  [1m[35mCREATE TABLE "products" ("id" bigserial primary key, "category_id" integer, "product_name" character varying, "price" float, "description" character varying, "quantity" integer, "photo" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171204190333"]]
+  [1m[35m (16.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateCategories (20171204190408)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (88.9ms)[0m  [1m[35mCREATE TABLE "categories" ("id" bigserial primary key, "category_name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171204190408"]]
+  [1m[35m (17.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateUsers (20171204190445)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (97.8ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "first_name" character varying, "last_name" character varying, "email" character varying, "password_digest" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171204190445"]]
+  [1m[35m (17.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateOrders (20171204190504)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (39.2ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "user_id" integer, "completed" boolean, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (73.6ms)[0m  [1m[35mCREATE  INDEX  "index_orders_on_user_id" ON "orders"  ("user_id")[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171204190504"]]
+  [1m[35m (16.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateOrderLineItems (20171215193228)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (82.5ms)[0m  [1m[35mCREATE TABLE "order_line_items" ("id" bigserial primary key, "product_id" bigint, "order_id" bigint, "product_name" character varying, "price" float, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_3de014ac64"
+FOREIGN KEY ("product_id")
+  REFERENCES "products" ("id")
+, CONSTRAINT "fk_rails_731701bf4f"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (56.8ms)[0m  [1m[35mCREATE  INDEX  "index_order_line_items_on_product_id" ON "order_line_items"  ("product_id")[0m
+  [1m[35m (39.7ms)[0m  [1m[35mCREATE  INDEX  "index_order_line_items_on_order_id" ON "order_line_items"  ("order_id")[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20171215193228"]]
+  [1m[35m (16.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2022-11-08 17:02:38.247861"], ["updated_at", "2022-11-08 17:02:38.247861"]]
+  [1m[35m (33.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(8115692404137957555)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Men's T-Shirts"], ["created_at", "2022-11-08 17:02:50.834702"], ["updated_at", "2022-11-08 17:02:50.834702"]]
+  [1m[35m (23.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Men's Hoodies"], ["created_at", "2022-11-08 17:02:50.859768"], ["updated_at", "2022-11-08 17:02:50.859768"]]
+  [1m[35m (7.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Men's Pants"], ["created_at", "2022-11-08 17:02:50.868422"], ["updated_at", "2022-11-08 17:02:50.868422"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Men's Shorts"], ["created_at", "2022-11-08 17:02:50.876790"], ["updated_at", "2022-11-08 17:02:50.876790"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Men's Jackets"], ["created_at", "2022-11-08 17:02:50.885112"], ["updated_at", "2022-11-08 17:02:50.885112"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Men's Hats"], ["created_at", "2022-11-08 17:02:50.893378"], ["updated_at", "2022-11-08 17:02:50.893378"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Men's Socks"], ["created_at", "2022-11-08 17:02:50.901778"], ["updated_at", "2022-11-08 17:02:50.901778"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Women's T-Shirts"], ["created_at", "2022-11-08 17:02:50.910104"], ["updated_at", "2022-11-08 17:02:50.910104"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Women's Tank Tops"], ["created_at", "2022-11-08 17:02:50.918458"], ["updated_at", "2022-11-08 17:02:50.918458"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Women's Hoodies"], ["created_at", "2022-11-08 17:02:50.926722"], ["updated_at", "2022-11-08 17:02:50.926722"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Women's Jackets"], ["created_at", "2022-11-08 17:02:50.935125"], ["updated_at", "2022-11-08 17:02:50.935125"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Women's Shorts"], ["created_at", "2022-11-08 17:02:50.943322"], ["updated_at", "2022-11-08 17:02:50.943322"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Women's Hats"], ["created_at", "2022-11-08 17:02:50.951723"], ["updated_at", "2022-11-08 17:02:50.951723"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Women's Socks"], ["created_at", "2022-11-08 17:02:50.960148"], ["updated_at", "2022-11-08 17:02:50.960148"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Kids' T-Shirts"], ["created_at", "2022-11-08 17:02:50.968437"], ["updated_at", "2022-11-08 17:02:50.968437"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Kids' Hoodies"], ["created_at", "2022-11-08 17:02:50.976773"], ["updated_at", "2022-11-08 17:02:50.976773"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Kids' Pants"], ["created_at", "2022-11-08 17:02:50.985135"], ["updated_at", "2022-11-08 17:02:50.985135"]]
+  [1m[35m (7.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Kids' Shorts"], ["created_at", "2022-11-08 17:02:50.993834"], ["updated_at", "2022-11-08 17:02:50.993834"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Ties"], ["created_at", "2022-11-08 17:02:51.001783"], ["updated_at", "2022-11-08 17:02:51.001783"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Cups"], ["created_at", "2022-11-08 17:02:51.010111"], ["updated_at", "2022-11-08 17:02:51.010111"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Mugs"], ["created_at", "2022-11-08 17:02:51.018465"], ["updated_at", "2022-11-08 17:02:51.018465"]]
+  [1m[35m (31.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Towels"], ["created_at", "2022-11-08 17:02:51.051711"], ["updated_at", "2022-11-08 17:02:51.051711"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Flags"], ["created_at", "2022-11-08 17:02:51.060094"], ["updated_at", "2022-11-08 17:02:51.060094"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "categories" ("category_name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["category_name", "Keychains"], ["created_at", "2022-11-08 17:02:51.068465"], ["updated_at", "2022-11-08 17:02:51.068465"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 1], ["product_name", "Men's Blue T-Shirt - Small"], ["price", 19.99], ["description", "Small Blue T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.088651"], ["updated_at", "2022-11-08 17:02:51.088651"]]
+  [1m[35m (2.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 1], ["product_name", "Men's Blue T-Shirt - Medium"], ["price", 19.99], ["description", "Medium Blue T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.093514"], ["updated_at", "2022-11-08 17:02:51.093514"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 1], ["product_name", "Men's Blue T-Shirt - Large"], ["price", 19.99], ["description", "Large Blue T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.102124"], ["updated_at", "2022-11-08 17:02:51.102124"]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 1], ["product_name", "Men's Blue T-Shirt - X-Large"], ["price", 19.99], ["description", "X-Large Blue T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.110159"], ["updated_at", "2022-11-08 17:02:51.110159"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 2], ["product_name", "Men's Blue Hoodie - Small"], ["price", 49.99], ["description", "Small Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.118520"], ["updated_at", "2022-11-08 17:02:51.118520"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 2], ["product_name", "Men's Blue Hoodie - Medium"], ["price", 49.99], ["description", "Medium Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.126836"], ["updated_at", "2022-11-08 17:02:51.126836"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 2], ["product_name", "Men's Blue Hoodie - Large"], ["price", 49.99], ["description", "Large Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.135194"], ["updated_at", "2022-11-08 17:02:51.135194"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 2], ["product_name", "Men's Blue Hoodie - X-Large"], ["price", 49.99], ["description", "X-Large Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.143527"], ["updated_at", "2022-11-08 17:02:51.143527"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 3], ["product_name", "Men's Black Pants - Small"], ["price", 35.5], ["description", "Small Black Pants"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.151743"], ["updated_at", "2022-11-08 17:02:51.151743"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 3], ["product_name", "Men's Black Pants - Medium"], ["price", 35.5], ["description", "Medium Black Pants"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.160201"], ["updated_at", "2022-11-08 17:02:51.160201"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 3], ["product_name", "Men's Black Pants - Large"], ["price", 35.5], ["description", "Large Black Pants"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.168285"], ["updated_at", "2022-11-08 17:02:51.168285"]]
+  [1m[35m (6.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 3], ["product_name", "Men's Black Pants - X-Large"], ["price", 35.5], ["description", "X-Large Black Pants"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.176859"], ["updated_at", "2022-11-08 17:02:51.176859"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 4], ["product_name", "Men's Black Shorts - Small"], ["price", 29.99], ["description", "Small Black Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.185260"], ["updated_at", "2022-11-08 17:02:51.185260"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 4], ["product_name", "Men's Black Shorts - Medium"], ["price", 29.99], ["description", "Medium Black Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.193621"], ["updated_at", "2022-11-08 17:02:51.193621"]]
+  [1m[35m (10.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 4], ["product_name", "Men's Black Shorts - Large"], ["price", 29.99], ["description", "Large Black Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.210299"], ["updated_at", "2022-11-08 17:02:51.210299"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 4], ["product_name", "Men's Black Shorts - X-Large"], ["price", 29.99], ["description", "X-Large Black Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.218596"], ["updated_at", "2022-11-08 17:02:51.218596"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 5], ["product_name", "Men's Blue Fleece - Small"], ["price", 49.99], ["description", "Small Blue Fleece"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.226918"], ["updated_at", "2022-11-08 17:02:51.226918"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 5], ["product_name", "Men's Blue Fleece - Medium"], ["price", 49.99], ["description", "Medium Blue Fleece"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.235263"], ["updated_at", "2022-11-08 17:02:51.235263"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 5], ["product_name", "Men's Blue Fleece - Large"], ["price", 49.99], ["description", "Large Blue Fleece"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.243926"], ["updated_at", "2022-11-08 17:02:51.243926"]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 5], ["product_name", "Men's Blue Fleece - X-Large"], ["price", 49.99], ["description", "X-Large Blue Fleece"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.251804"], ["updated_at", "2022-11-08 17:02:51.251804"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 6], ["product_name", "Men's Black Cap - Small"], ["price", 25.99], ["description", "Small Black Cap"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.259896"], ["updated_at", "2022-11-08 17:02:51.259896"]]
+  [1m[35m (6.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 6], ["product_name", "Men's Black Cap - Medium"], ["price", 25.99], ["description", "Medium Black Cap"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.268209"], ["updated_at", "2022-11-08 17:02:51.268209"]]
+  [1m[35m (7.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 6], ["product_name", "Men's Black Cap - Large"], ["price", 25.99], ["description", "Large Black Cap"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.276846"], ["updated_at", "2022-11-08 17:02:51.276846"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 6], ["product_name", "Men's Black Cap - X-Large"], ["price", 25.99], ["description", "X-Large Black Cap"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.285256"], ["updated_at", "2022-11-08 17:02:51.285256"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 7], ["product_name", "Men's Blue Socks - Small"], ["price", 15.99], ["description", "Small Blue Socks"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.293568"], ["updated_at", "2022-11-08 17:02:51.293568"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 7], ["product_name", "Men's Blue Socks - Medium"], ["price", 15.99], ["description", "Medium Blue Socks"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.301917"], ["updated_at", "2022-11-08 17:02:51.301917"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 7], ["product_name", "Men's Blue Socks - Large"], ["price", 15.99], ["description", "Large Blue Socks"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.310317"], ["updated_at", "2022-11-08 17:02:51.310317"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 7], ["product_name", "Men's Blue Socks - X-Large"], ["price", 15.99], ["description", "X-Large Blue Socks"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.318606"], ["updated_at", "2022-11-08 17:02:51.318606"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 8], ["product_name", "Women's White T-Shirt - Small"], ["price", 19.99], ["description", "Small White T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.326907"], ["updated_at", "2022-11-08 17:02:51.326907"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 8], ["product_name", "Women's White T-Shirt - Medium"], ["price", 19.99], ["description", "Medium White T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.335283"], ["updated_at", "2022-11-08 17:02:51.335283"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 8], ["product_name", "Women's White T-Shirt - Large"], ["price", 19.99], ["description", "Large White T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.343574"], ["updated_at", "2022-11-08 17:02:51.343574"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 8], ["product_name", "Women's White T-Shirt - X-Large"], ["price", 19.99], ["description", "X-Large White T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.351847"], ["updated_at", "2022-11-08 17:02:51.351847"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 9], ["product_name", "Women's Blue Tank - Small"], ["price", 19.99], ["description", "Small Blue Tank"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.360292"], ["updated_at", "2022-11-08 17:02:51.360292"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 9], ["product_name", "Women's Blue Tank - Medium"], ["price", 19.99], ["description", "Medium Blue Tank"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.368627"], ["updated_at", "2022-11-08 17:02:51.368627"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 9], ["product_name", "Women's Blue Tank - Large"], ["price", 19.99], ["description", "Large Blue Tank"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.376952"], ["updated_at", "2022-11-08 17:02:51.376952"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 9], ["product_name", "Women's Blue Tank - X-Large"], ["price", 19.99], ["description", "X-Large Blue Tank"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.385270"], ["updated_at", "2022-11-08 17:02:51.385270"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 10], ["product_name", "Women's Blue Hoodie - Small"], ["price", 49.99], ["description", "Small Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.393614"], ["updated_at", "2022-11-08 17:02:51.393614"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 10], ["product_name", "Women's Blue Hoodie - Medium"], ["price", 49.99], ["description", "Medium Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.401942"], ["updated_at", "2022-11-08 17:02:51.401942"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 10], ["product_name", "Women's Blue Hoodie - Large"], ["price", 49.99], ["description", "Large Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.410255"], ["updated_at", "2022-11-08 17:02:51.410255"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 10], ["product_name", "Women's Blue Hoodie - X-Large"], ["price", 49.99], ["description", "X-Large Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.418611"], ["updated_at", "2022-11-08 17:02:51.418611"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 11], ["product_name", "Women's Black Fleece - Small"], ["price", 49.99], ["description", "Small Black Fleece"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.426911"], ["updated_at", "2022-11-08 17:02:51.426911"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 11], ["product_name", "Women's Black Fleece - Medium"], ["price", 49.99], ["description", "Medium Black Fleece"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.435293"], ["updated_at", "2022-11-08 17:02:51.435293"]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 11], ["product_name", "Women's Black Fleece - Large"], ["price", 49.99], ["description", "Large Black Fleece"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.443189"], ["updated_at", "2022-11-08 17:02:51.443189"]]
+  [1m[35m (7.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 11], ["product_name", "Women's Black Fleece - X-Large"], ["price", 49.99], ["description", "X-Large Black Fleece"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.451875"], ["updated_at", "2022-11-08 17:02:51.451875"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 12], ["product_name", "Women's White Shorts - Small"], ["price", 29.99], ["description", "Small White Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.460311"], ["updated_at", "2022-11-08 17:02:51.460311"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 12], ["product_name", "Women's White Shorts - Medium"], ["price", 29.99], ["description", "Medium White Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.468643"], ["updated_at", "2022-11-08 17:02:51.468643"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 12], ["product_name", "Women's White Shorts - Large"], ["price", 29.99], ["description", "Large White Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.476993"], ["updated_at", "2022-11-08 17:02:51.476993"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 12], ["product_name", "Women's White Shorts - X-Large"], ["price", 29.99], ["description", "X-Large White Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.485280"], ["updated_at", "2022-11-08 17:02:51.485280"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 13], ["product_name", "Women's White Cap - Small"], ["price", 25.99], ["description", "Small White Cap"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.493626"], ["updated_at", "2022-11-08 17:02:51.493626"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 13], ["product_name", "Women's White Cap - Medium"], ["price", 25.99], ["description", "Medium White Cap"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.501969"], ["updated_at", "2022-11-08 17:02:51.501969"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 13], ["product_name", "Women's White Cap - Large"], ["price", 25.99], ["description", "Large White Cap"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.510291"], ["updated_at", "2022-11-08 17:02:51.510291"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 13], ["product_name", "Women's White Cap - X-Large"], ["price", 25.99], ["description", "X-Large White Cap"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.518632"], ["updated_at", "2022-11-08 17:02:51.518632"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 14], ["product_name", "Women's Blue Socks - Small"], ["price", 15.99], ["description", "Small Blue Socks"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.526946"], ["updated_at", "2022-11-08 17:02:51.526946"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 14], ["product_name", "Women's Blue Socks - Medium"], ["price", 15.99], ["description", "Medium Blue Socks"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.535283"], ["updated_at", "2022-11-08 17:02:51.535283"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 14], ["product_name", "Women's Blue Socks - Large"], ["price", 15.99], ["description", "Large Blue Socks"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.543582"], ["updated_at", "2022-11-08 17:02:51.543582"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 14], ["product_name", "Women's Blue Socks - X-Large"], ["price", 15.99], ["description", "X-Large Blue Socks"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.551865"], ["updated_at", "2022-11-08 17:02:51.551865"]]
+  [1m[35m (6.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 15], ["product_name", "Kids' White T-Shirt - Small"], ["price", 19.99], ["description", "Small White T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.560288"], ["updated_at", "2022-11-08 17:02:51.560288"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 15], ["product_name", "Kids' White T-Shirt - Medium"], ["price", 19.99], ["description", "Medium White T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.568637"], ["updated_at", "2022-11-08 17:02:51.568637"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 15], ["product_name", "Kids' White T-Shirt - Large"], ["price", 19.99], ["description", "Large White T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.576987"], ["updated_at", "2022-11-08 17:02:51.576987"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 15], ["product_name", "Kids' White T-Shirt - X-Large"], ["price", 19.99], ["description", "X-Large White T-Shirt"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.585311"], ["updated_at", "2022-11-08 17:02:51.585311"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 16], ["product_name", "Kids' Blue Hoodie - Small"], ["price", 49.99], ["description", "Small Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.593622"], ["updated_at", "2022-11-08 17:02:51.593622"]]
+  [1m[35m (6.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 16], ["product_name", "Kids' Blue Hoodie - Medium"], ["price", 49.99], ["description", "Medium Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.602331"], ["updated_at", "2022-11-08 17:02:51.602331"]]
+  [1m[35m (6.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 16], ["product_name", "Kids' Blue Hoodie - Large"], ["price", 49.99], ["description", "Large Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.610302"], ["updated_at", "2022-11-08 17:02:51.610302"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 16], ["product_name", "Kids' Blue Hoodie - X-Large"], ["price", 49.99], ["description", "X-Large Blue Hoodie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.618647"], ["updated_at", "2022-11-08 17:02:51.618647"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 17], ["product_name", "Kids' Grey Pants - Small"], ["price", 29.99], ["description", "Small Grey Pants"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.626947"], ["updated_at", "2022-11-08 17:02:51.626947"]]
+  [1m[35m (31.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 17], ["product_name", "Kids' Grey Pants - Medium"], ["price", 29.99], ["description", "Medium Grey Pants"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.660340"], ["updated_at", "2022-11-08 17:02:51.660340"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 17], ["product_name", "Kids' Grey Pants - Large"], ["price", 29.99], ["description", "Large Grey Pants"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.668681"], ["updated_at", "2022-11-08 17:02:51.668681"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 17], ["product_name", "Kids' Grey Pants - X-Large"], ["price", 29.99], ["description", "X-Large Grey Pants"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.676991"], ["updated_at", "2022-11-08 17:02:51.676991"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 18], ["product_name", "Kids' Black Shorts - Small"], ["price", 25.99], ["description", "Small Black Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.685328"], ["updated_at", "2022-11-08 17:02:51.685328"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 18], ["product_name", "Kids' Black Shorts - Medium"], ["price", 25.99], ["description", "Medium Black Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.693693"], ["updated_at", "2022-11-08 17:02:51.693693"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 18], ["product_name", "Kids' Black Shorts - Large"], ["price", 25.99], ["description", "Large Black Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.702010"], ["updated_at", "2022-11-08 17:02:51.702010"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 18], ["product_name", "Kids' Black Shorts - X-Large"], ["price", 25.99], ["description", "X-Large Black Shorts"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.710343"], ["updated_at", "2022-11-08 17:02:51.710343"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 19], ["product_name", "Blue Neck Tie"], ["price", 19.99], ["description", "Blue Neck Tie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.718716"], ["updated_at", "2022-11-08 17:02:51.718716"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 19], ["product_name", "White Neck Tie"], ["price", 19.99], ["description", "White Neck Tie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.727072"], ["updated_at", "2022-11-08 17:02:51.727072"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 19], ["product_name", "Blue Bow Tie"], ["price", 19.99], ["description", "Blue Bow Tie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.735406"], ["updated_at", "2022-11-08 17:02:51.735406"]]
+  [1m[35m (6.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 19], ["product_name", "White Bow Tie"], ["price", 19.99], ["description", "White Bow Tie"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.743690"], ["updated_at", "2022-11-08 17:02:51.743690"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 20], ["product_name", "Tumbler"], ["price", 15.99], ["description", "Tumbler with logo"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.752027"], ["updated_at", "2022-11-08 17:02:51.752027"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 20], ["product_name", "Pint Glass"], ["price", 19.99], ["description", "Pint Glass"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.760365"], ["updated_at", "2022-11-08 17:02:51.760365"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 21], ["product_name", "Coffee Mug"], ["price", 19.99], ["description", "Coffee Mug with Logo"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.768750"], ["updated_at", "2022-11-08 17:02:51.768750"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 21], ["product_name", "Travel Mug"], ["price", 19.99], ["description", "Travel Mug with Logo"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.777044"], ["updated_at", "2022-11-08 17:02:51.777044"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 22], ["product_name", "Blue Beach Towel"], ["price", 19.99], ["description", "Blue Beach Towel"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.785364"], ["updated_at", "2022-11-08 17:02:51.785364"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 22], ["product_name", "White Beach Towel"], ["price", 19.99], ["description", "White Beach Towel"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.793720"], ["updated_at", "2022-11-08 17:02:51.793720"]]
+  [1m[35m (6.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 23], ["product_name", "Blue Car Flag"], ["price", 19.99], ["description", "Blue Car Flag"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.802052"], ["updated_at", "2022-11-08 17:02:51.802052"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 23], ["product_name", "White Car Flag"], ["price", 19.99], ["description", "White Car Flag"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.810410"], ["updated_at", "2022-11-08 17:02:51.810410"]]
+  [1m[35m (6.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 24], ["product_name", "Blue Keychain"], ["price", 4.99], ["description", "Blue Keychain"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.818243"], ["updated_at", "2022-11-08 17:02:51.818243"]]
+  [1m[35m (7.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "products" ("category_id", "product_name", "price", "description", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["category_id", 24], ["product_name", "Black Keychain"], ["price", 4.99], ["description", "Black Keychain"], ["quantity", 30], ["created_at", "2022-11-08 17:02:51.827045"], ["updated_at", "2022-11-08 17:02:51.827045"]]
+  [1m[35m (6.6ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for 127.0.0.1 at 2022-11-08 20:28:12 +0300
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /home/allan/gems/gems/railties-5.1.4/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/allan/gems/gems/railties-5.1.4/lib/rails/templates/rails/welcome/index.html.erb (21.7ms)
+Completed 200 OK in 69ms (Views: 63.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/favicon.ico" for 127.0.0.1 at 2022-11-08 20:28:12 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+actionpack (5.1.4) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.4) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.4) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.4) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.4) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.4) lib/rails/rack/logger.rb:24:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.4) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+rack-cors (1.0.2) lib/rack/cors.rb:97:in `call'
+railties (5.1.4) lib/rails/engine.rb:522:in `call'
+puma (3.11.0) lib/puma/configuration.rb:225:in `call'
+puma (3.11.0) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.0) lib/puma/server.rb:438:in `process_client'
+puma (3.11.0) lib/puma/server.rb:302:in `block in run'
+puma (3.11.0) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2022-11-08 20:40:52 +0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering /home/allan/gems/gems/railties-5.1.4/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /home/allan/gems/gems/railties-5.1.4/lib/rails/templates/rails/welcome/index.html.erb (2.1ms)
+Completed 200 OK in 4ms (Views: 3.0ms | ActiveRecord: 0.0ms)
+
+
