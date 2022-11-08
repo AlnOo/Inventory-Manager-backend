@@ -50,61 +50,13 @@ The response will contain the `auth_token`.
 
 Use the auth token in the `Authorization` header of your API calls.
 
-## Endpoints
-
-```
-         orders GET    /orders(.:format)               orders#index
-                POST   /orders(.:format)               orders#create
-          order GET    /orders/:id(.:format)           orders#show
-                PATCH  /orders/:id(.:format)           orders#update
-                PUT    /orders/:id(.:format)           orders#update
-                DELETE /orders/:id(.:format)           orders#destroy
-          users GET    /users(.:format)                users#index
-                POST   /users(.:format)                users#create
-        user GET    /users/:id(.:format)            users#show
-                PATCH  /users/:id(.:format)            users#update
-                PUT    /users/:id(.:format)            users#update
-                DELETE /users/:id(.:format)            users#destroy
-     categories GET    /categories(.:format)           categories#index
-                POST   /categories(.:format)           categories#create
-       category GET    /categories/:id(.:format)       categories#show
-                PATCH  /categories/:id(.:format)       categories#update
-                PUT    /categories/:id(.:format)       categories#update
-                DELETE /categories/:id(.:format)       categories#destroy
-       products GET    /products(.:format)             products#index
-                POST   /products(.:format)             products#create
-        product GET    /products/:id(.:format)         products#show
-                PATCH  /products/:id(.:format)         products#update
-                PUT    /products/:id(.:format)         products#update
-                DELETE /products/:id(.:format)         products#destroy
-order_line_items GET    /order_line_items(.:format)     order_line_items#index
-                POST   /order_line_items(.:format)     order_line_items#create
-order_line_item GET    /order_line_items/:id(.:format) order_line_items#show
-                PATCH  /order_line_items/:id(.:format) order_line_items#update
-                PUT    /order_line_items/:id(.:format) order_line_items#update
-                DELETE /order_line_items/:id(.:format) order_line_items#destroy
-         logout DELETE /logout(.:format)               authentication#destroy
-   authenticate POST   /authenticate(.:format)         authentication#authenticate
-```
 
 ## Prerequisites
 
-#### Rails 5.1.4
-
-`gem install rails`
-
-Check `rails --version` to see if it is installed.
-
-#### PostGresQL
-
-`brew install postgresql`
-
-## Tech Stack
-
-* [Rails 5](http://rubyonrails.org/)
-* [PostGresQL](https://www.postgresql.org/)
+#### Rails 5.1.4 -[Rails 5](http://rubyonrails.org/)
+#### PostGresQL -[PostGresQL](https://www.postgresql.org/)
 
 ## Author
 
-[Matt Brown](mailto:mtallentb.design@gmail.com)
+[Allan Odhiambo](mailto:alnothigo@gmail.com)
 
