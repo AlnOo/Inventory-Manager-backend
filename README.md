@@ -6,7 +6,7 @@ This is a Rails API for a an inventory management system with a React front end.
 
 ## Installation Instructions
 
-1. Clone this repository `git clone https://github.com/mtallentb/INVENTORY_RAILS_API.git`
+1. Clone this repository `git clone git@github.com:AlnOo/Inventory-Manager-backend.git`
 2. `cd INVENTORY_RAILS_API`
 3. `bundle install`
 4. `rails db:migrate`
